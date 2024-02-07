@@ -11,30 +11,30 @@ Minetest Server with PostgreSQL Tutorial
 Table of Contents
 ------------------
 1. [Securing Debian](/securing_debian.md)
-   - [Create User](#create-user)
-   - [SSH with Auth Keys](#ssh-with-auth-keys)
-   - [Uncomplicated Firewall](#uncomplicated-firewall)
+   - [Create User](/securing_debian.md#create-user)
+   - [SSH with Auth Keys](/securing_debian.md#ssh-with-auth-keys)
+   - [Uncomplicated Firewall](/securing_debian.md#uncomplicated-firewall)
    
 2. [PostgreSQL Setup](/postgresql_setup.md)
-   - [Repository Keyring](#repository-keyring)
-   - [Install PostgreSQL](#install-postgresql)
-   - [User Database](#user-database)
-   - [Socket Connection](#socket-connection) **to do
-   - [Shared Buffer](#shared-buffer) **to do
+   - [Repository Keyring](/postgresql_setup.md#repository-keyring)
+   - [Install PostgreSQL](/postgresql_setup.md#install-postgresql)
+   - [User Database](/postgresql_setup.md#user-database)
+   - [Socket Connection](/postgresql_setup.md#socket-connection) **to do
+   - [Shared Buffer](/postgresql_setup.md#shared-buffer) **to do
    
 3. [Minetest Server](/compile_minetestserver.md)
-   - [Install Dependencies](#install-dependencies)
-   - [Make and Compile](#make-and-compile)
-   - [world.mt](#worldmt)
-   - [minetest.conf](#minetestconf)
-   - [Run Server](#run-server)
+   - [Install Dependencies](/compile_minetestserver.md#install-dependencies)
+   - [Make and Compile](/compile_minetestserver.md#make-and-compile)
+   - [world.mt](/compile_minetestserver.md#worldmt)
+   - [minetest.conf](/compile_minetestserver.md#minetestconf)
+   - [Run Server](/compile_minetestserver.md#run-server)
 
 4. [MultiCraft Server](/compile_multicraftserver.md)
-   - [Install Dependencies](#install-dependencies)
-   - [Make and Compile](#make-and-compile)
-   - [world.mt](#worldmt)
-   - [minetest.conf](#minetestconf)
-   - [Run Server](#run-server)
+   - [Install Dependencies](/compile_multicraftserver.md#install-dependencies)
+   - [Make and Compile](/compile_multicraftserver.md#make-and-compile)
+   - [world.mt](/compile_multicraftserver.md#worldmt)
+   - [minetest.conf](/compile_multicraftserver.md#minetestconf)
+   - [Run Server](/compile_multicraftserver.md#run-server)
    
 5. [Migrating Backend](/migrating_backend.md) **Incomplete
 

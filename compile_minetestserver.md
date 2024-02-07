@@ -38,7 +38,7 @@ wget https://github.com/minetest/minetest_game/archive/master.tar.gz && \
 tar -xzf master.tar.gz && rm master.tar.gz && \
 mv minetest_game-master minetest_game && \
 cd .. && \
-cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DENABLE_POSTGRESQL=ON -DIRRLICHT_INCLUDE_DIR=${HOME}/minetest-master/lib/irrlichtmt/include && \
+cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DENABLE_POSTGRESQL=ON -DPostgreSQL_TYPE_INCLUDE_DIR=/usr/include/postgresql/15/server/libpq -DIRRLICHT_INCLUDE_DIR=${HOME}/minetest-master/lib/irrlichtmt/include && \
 make -j$(nproc)
 ```
 
@@ -53,14 +53,25 @@ When compiling is complete, the `minetestserver` binary can be found in ~/minete
 # map
 backend = postgresql
 pgsql_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
+## socket connection:
+## pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+
 # auth
 auth_backend = postgresql
 pgsql_auth_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=authdb
+## socket connection:
+## pgsql_auth_connection = postgresql:///authdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=authdb
+
 # players
 player_backend = postgresql
 pgsql_player_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=playerdb
+## socket connection
+## pgsql_player_connection = postgresql:///playerdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=playerdb
+
 # mapserver
 pgsql_mapserver_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapserverdb
+## socket connection
+## pgsql_mapserver_connection = postgresql:///mapserverdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapserverdb
 ```
 Mapserver is optional, and not yet covered by this tutorial. Source can be found here: https://github.com/minetest-mapserver/mapserver
 
