@@ -22,14 +22,14 @@ Table of Contents
    - [Socket Connection](#socket-connection) **to do
    - [Shared Buffer](#shared-buffer) **to do
    
-3. [Minetest](/compile_minetest.md)
+3. [Minetest Server](/compile_minetestserver.md)
    - [Install Dependencies](#install-dependencies)
    - [Make and Compile](#make-and-compile)
    - [world.mt](#worldmt)
    - [minetest.conf](#minetestconf)
    - [Run Server](#run-server)
 
-4. [MultiCraft](/compile_multicraft.md)
+4. [MultiCraft Server](/compile_multicraftserver.md)
    - [Install Dependencies](#install-dependencies)
    - [Make and Compile](#make-and-compile)
    - [world.mt](#worldmt)

@@ -77,7 +77,7 @@ user@local:~$ ssh -p 7743 user@host
 user@local:~$ rsync -av -e 'ssh -p 7743' user@host:/home/user/example.txt ./
 ```
 
-### Uncomplicated Firewall
+3. ### Uncomplicated Firewall
 > [!NOTE]
 > This will prevent all incoming connections except on port 7743 (ssh) and 30000 (minetest). UDP is denied on port 7443 since we don't need it for SSH. These rules will also limit the connection attempts to a defaulted amount of 6 attempts within a 30 second window.
 
