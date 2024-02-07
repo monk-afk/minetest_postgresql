@@ -173,6 +173,7 @@ root@host:~# /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 4. Now you can install
 ```sh
 root@host:~# apt-get install postgresql-15
+root@host:~# apt-get install postgresql-server-dev-15
 ```
 
 ### User Database
