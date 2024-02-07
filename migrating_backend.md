@@ -2,7 +2,8 @@ Migrating Backend (Incomplete)
 =================
 Table of Contents
 -----------------
-   - [Incomplete Guide](#migrating-backend)
+   - [Edit world.mt](#edit-worldmt)
+   - [Perform Migration](#perform-migration)
 ##
 1. ### Edit world.mt
 - Add the pgslq connection of the backend to be migrated.
@@ -19,13 +20,9 @@ gameid = minetest
 world_name = world
 ```
 
-2. ### Perform the migration
+2. ### Perform Migration
 ```sh
 user@host:~/minetest-master$ ./bin/minetestserver --migrate postgresql --world /home/user/minetest-master/worlds/world
-```
-Or if using multicraft
-```sh
-user@host:~/MultiCraft-main$ ./bin/multicraftserver --migrate postgresql --world /home/user/MultiCraft-main/worlds/world
 ```
 
 Depending on the size of your map file, the migration may take several hours.

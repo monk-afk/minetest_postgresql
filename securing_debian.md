@@ -127,7 +127,7 @@ To                         Action      From
 30000/udp (v6)             LIMIT       Anywhere (v6)             
 ```
 
-You now have a secure host server.
+You now have a secure host server. Next step is [PostgreSQL Setup](/postgresql_setup.md).
 
 
 ##

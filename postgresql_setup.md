@@ -5,7 +5,7 @@ Table of Contents
    - [Repository Keyring](#repository-keyring)
    - [Install PostgreSQL](#install-postgresql)
    - [User Database](#user-database)
-   - [Socket Connection](#socket-connection) **to do
+   - [Socket Connection](#socket-connection)
    - [Shared Buffer](#shared-buffer) **to do
 ##
 
@@ -82,7 +82,35 @@ postgres@host:~$ pg_dumpall
 postgres@host:~$ psql -d mapdb -h localhost -U psqluser
 ```
 
-You now have a running PostgreSQL service.
+4. ### Socket Connection
+> Faster than IP connection for connecting services within localhost
+- Edit `/etc/postgresql/15/main/pg_ident.conf` and add:
+```conf
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+local           user                    psqluser
+```
+ - `SYSTEM-USERNAME` is the username which starts minetest service, ie; `user`
+ - `PG-USERNAME` is the database owner name to which `user` will connect; `psqluser`
+ - `MAPNAME` is the map name that was used in pg_hba.conf; set it to `local`
+   - `local` is for Unix domain socket connections only
+
+- Edit `/etc/postgresql/15/main/pg_hba.conf` and change `peer` to `scram-sha-256`:
+```conf
+# "local" is for Unix domain socket connections only
+local   all             all                                     scram-sha-256
+```
+
+- Restart the PostgreSQL service
+```sh
+root@host:~# /etc/init.d/postgresql restart
+```
+
+- It is now possible to connect to the database using your `user` account
+```sh
+user@host:~$ psql -d mapdb -h localhost -U psqluser
+```
+
+You now have a running PostgreSQL service. Next step is to [Compile Minetest](/compile_minetestserver.md) or [MultiCraft](/compile_multicraftserver.md)
 
 
 ##

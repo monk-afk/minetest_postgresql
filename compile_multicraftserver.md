@@ -47,14 +47,25 @@ When compiling is complete, the `multicraftserver` binary can be found in ~/Mult
 # map
 backend = postgresql
 pgsql_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
+## socket connection:
+## pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+
 # auth
 auth_backend = postgresql
 pgsql_auth_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=authdb
+## socket connection:
+## pgsql_auth_connection = postgresql:///authdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=authdb
+
 # players
 player_backend = postgresql
 pgsql_player_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=playerdb
+## socket connection
+## pgsql_player_connection = postgresql:///playerdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=playerdb
+
 # mapserver
 pgsql_mapserver_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapserverdb
+## socket connection
+## pgsql_mapserver_connection = postgresql:///mapserverdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapserverdb
 ```
 Mapserver is optional, and not yet covered by this tutorial. Source can be found here: https://github.com/minetest-mapserver/mapserver
 
