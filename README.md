@@ -153,14 +153,14 @@ PostgreSQL
 
 1. Get postgres-common from Debian source:
 ```sh
-user@host:~$ http://deb.debian.org/debian/pool/main/p/postgresql-common/postgresql-common_225.tar.xz
+user@host:~$ wget http://deb.debian.org/debian/pool/main/p/postgresql-common/postgresql-common_225.tar.xz
 user@host:~$ tar -xf postgresql-common_225.tar.xz
 ```
 
 2. Copy the required bash script from the extracted folder:
 ```sh
 root@host:~# mkdir -p /usr/share/postgresql-common/pgdg && \
-mv /home/user/apt.postgresql.org.sh /usr/share/postgresql-common/pgdg/ && \
+mv /home/user/postgresql-common/pgdg/apt.postgresql.org.sh /usr/share/postgresql-common/pgdg/ && \
 chown root:root /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh && \
 chmod 755 /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 ```
