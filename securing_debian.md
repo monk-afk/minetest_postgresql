@@ -131,8 +131,8 @@ You now have a secure host server. Next step is [PostgreSQL Setup](/postgresql_s
 
 
 ##
+### mønκ
 <img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
-mønκ
 
 ##
 License

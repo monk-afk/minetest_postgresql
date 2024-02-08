@@ -19,9 +19,10 @@ Table of Contents
    - [Repository Keyring](/postgresql_setup.md#repository-keyring)
    - [Install PostgreSQL](/postgresql_setup.md#install-postgresql)
    - [User Database](/postgresql_setup.md#user-database)
-   - [Socket Connection](/postgresql_setup.md#socket-connection) **to do
+   - [Socket Connection](/postgresql_setup.md#socket-connection)
    - [Shared Buffer](/postgresql_setup.md#shared-buffer) **to do
-   
+   - [Taking Dumps](/postgresql_setup.md#creating-backups) **to do
+
 3. [Minetest Server](/compile_minetestserver.md)
    - [Install Dependencies](/compile_minetestserver.md#install-dependencies)
    - [Make and Compile](/compile_minetestserver.md#make-and-compile)
@@ -38,10 +39,12 @@ Table of Contents
    
 5. [Migrating Backend](/migrating_backend.md) **Incomplete
 
-##
-<img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
-mønκ
 
+##
+### mønκ
+<img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
+
+##
 License
 -------
 CC0 1.0 Universal

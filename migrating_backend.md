@@ -5,17 +5,16 @@ Table of Contents
    - [Edit world.mt](#edit-worldmt)
    - [Perform Migration](#perform-migration)
 ##
+> Make a backup copy of your files before migrating!
 1. ### Edit world.mt
-- Add the pgslq connection of the backend to be migrated.
-- Migrate only one backend at a time.
-- Make sure the backend setting is the current type, by default sqlite3.
+   - Add the pgslq_connection of the backend to be migrated.
+   - Do not change the backend type, it will be updated by the migration automation.
+   - Migrate only one backend at a time.
 ```conf
+# map
 backend = sqlite3
-# IP connection
-# pgsql_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
-#
 # Socket connection:
-# pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
 gameid = minetest
 world_name = world
 ```
@@ -29,8 +28,8 @@ Depending on the size of your map file, the migration may take several hours.
 
 
 ##
+### mønκ
 <img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
-mønκ
 
 ##
 License
