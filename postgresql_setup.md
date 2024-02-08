@@ -7,6 +7,7 @@ Table of Contents
    - [User Database](#user-database)
    - [Socket Connection](#socket-connection)
    - [Shared Buffer](#shared-buffer) **to do
+   - [Making Dumps](#creating-backups) ** to do
 ##
 
 1. ### Repository Keyring
@@ -107,15 +108,15 @@ root@host:~# /etc/init.d/postgresql restart
 
 - It is now possible to connect to the database using your `user` account
 ```sh
-user@host:~$ psql -d mapdb -h localhost -U psqluser
+user@host:~$ psql -d mapdb -U psqluser
 ```
 
 You now have a running PostgreSQL service. Next step is to [Compile Minetest](/compile_minetestserver.md) or [MultiCraft](/compile_multicraftserver.md)
 
 
 ##
+### mønκ
 <img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
-mønκ
 
 ##
 License

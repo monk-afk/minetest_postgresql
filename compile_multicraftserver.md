@@ -25,7 +25,7 @@ root@host:~# apt install g++ make libc6-dev libirrlicht-dev cmake libbz2-dev lib
    - Minetest_Game (5.4.1) https://github.com/minetest/minetest_game/releases/tag/5.4.1
 ```sh
 user@host:~$ wget https://github.com/MultiCraft/MultiCraft/archive/main.tar.gz && \
-tar -xzf MultiCraft-main.tar.gz && rm MultiCraft-main.tar.gz && \
+tar -xzf main.tar.gz && rm main.tar.gz && \
 cd MultiCraft-main/games/ && \
 wget https://github.com/minetest/minetest_game/archive/refs/tags/5.4.1.tar.gz && \
 tar -xzf 5.4.1.tar.gz && rm 5.4.1.tar.gz && \
@@ -37,35 +37,37 @@ make -j$(nproc)
 When compiling is complete, the `multicraftserver` binary can be found in ~/MultiCraft-main/bin/
 
 3. ### world.mt
-- MultiCraft only supports 'file' type mod_storage
-- Default backend type is SQLite3
-
+> MultiCraft only supports 'file' type mod_storage
 - Configure `~/MultiCraft-main/worlds/yourworld/world.mt` file to include postgresql backend(s)
 - Each backend type (map, players, auth, mapserver) requires it's own database
 - **Make sure to change the username, password, and dbname to your own setting!**
+For Socket Connection
+```conf
+# map
+backend = postgresql
+pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+# auth
+auth_backend = postgresql
+pgsql_auth_connection = postgresql:///authdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=authdb
+# player
+player_backend = postgresql
+pgsql_player_connection = postgresql:///playerdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=playerdb
+# mapserver
+pgsql_mapserver_connection = postgresql:///mapserverdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapserverdb
+```
+For IP connection
 ```conf
 # map
 backend = postgresql
 pgsql_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
-## socket connection:
-## pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
-
 # auth
 auth_backend = postgresql
 pgsql_auth_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=authdb
-## socket connection:
-## pgsql_auth_connection = postgresql:///authdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=authdb
-
-# players
+# player
 player_backend = postgresql
 pgsql_player_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=playerdb
-## socket connection
-## pgsql_player_connection = postgresql:///playerdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=playerdb
-
 # mapserver
 pgsql_mapserver_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapserverdb
-## socket connection
-## pgsql_mapserver_connection = postgresql:///mapserverdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapserverdb
 ```
 Mapserver is optional, and not yet covered by this tutorial. Source can be found here: https://github.com/minetest-mapserver/mapserver
 
@@ -120,8 +122,8 @@ You now have a functional MultiCraft server.
 
 
 ##
+### mønκ
 <img decoding="async" loading="lazy" src="https://cdn.discordapp.com/emojis/1194038093775376455.webp?size=64&quality=lossless">
-mønκ
 
 ##
 License
