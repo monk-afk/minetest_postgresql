@@ -33,7 +33,8 @@ root@host:~# apt-get install rsync
 root@host:~# mkdir -p /home/user/.ssh && \
 touch /home/user/.ssh/authorized_keys && \
 chown -R user:user /home/user/.ssh && \
-chmod -R 700 /home/user/.ssh
+chmod 700 /home/user/.ssh && \
+chmod 600 /home/user/.ssh/authorized_keys
 ```
 
 - Generate new SSH keypair on local machine

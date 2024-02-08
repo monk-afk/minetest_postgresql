@@ -6,8 +6,7 @@ Table of Contents
    - [Install PostgreSQL](#install-postgresql)
    - [User Database](#user-database)
    - [Socket Connection](#socket-connection)
-   - [Shared Buffer](#shared-buffer) **to do
-   - [Making Dumps](#creating-backups) ** to do
+   - [Making Dumps](#creating-backups)
 ##
 
 1. ### Repository Keyring
@@ -73,12 +72,7 @@ createdb -O psqluser authdb && \
 createdb -O psqluser mapserverdb
 ```
 
-- Find the database(s) in the dump
-```sh
-postgres@host:~$ pg_dumpall
-```
-
-- Verify you can log in with the user
+- Verify you can connect to a database with the user
 ```sh
 postgres@host:~$ psql -d mapdb -h localhost -U psqluser
 ```
@@ -110,6 +104,14 @@ root@host:~# /etc/init.d/postgresql restart
 ```sh
 user@host:~$ psql -d mapdb -U psqluser
 ```
+
+5. ### Backup and Restore
+
+- To create a backup
+```sh
+postgres@host:~$ pg_dumpall
+```
+
 
 You now have a running PostgreSQL service. Next step is to [Compile Minetest](/compile_minetestserver.md) or [MultiCraft](/compile_multicraftserver.md)
 
