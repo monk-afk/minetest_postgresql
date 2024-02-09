@@ -6,40 +6,27 @@ Table of Contents
    - [Install PostgreSQL](#install-postgresql)
    - [User Database](#user-database)
    - [Socket Connection](#socket-connection)
-   - [Making Dumps](#creating-backups)
+   - [Migrating Backend](#migrating-backend)
+   - [Backup and Restore](#backup-and-restore)
 ##
 
 1. ### Repository Keyring
 
-- Install GnuPG from apt
+- Install GnuPG from apt, and get postgres-common package which contains a shell script for importing the postgresql repository keyring:
 ```sh
-root@host:~# apt-get install gnupg2
-```
-
-- Get postgres-common from Debian source:
-```sh
-user@host:~$ wget http://deb.debian.org/debian/pool/main/p/postgresql-common/postgresql-common_225.tar.xz
-user@host:~$ tar -xf postgresql-common_225.tar.xz
-```
-
-- Copy the required bash script from the extracted folder:
-```sh
-root@host:~# mkdir -p /usr/share/postgresql-common/pgdg && \
-mv /home/user/postgresql-common/pgdg/apt.postgresql.org.sh /usr/share/postgresql-common/pgdg/ && \
-chown root:root /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh && \
-chmod 755 /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
-```
-
-- Run the script to add keys to apt-keyring
-```sh
-root@host:~# /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
+root@host:~# apt-get install gnupg2 && \
+wget http://deb.debian.org/debian/pool/main/p/postgresql-common/postgresql-common_225.tar.xz && \
+tar -xf postgresql-common_225.tar.xz && rm postgresql-common_225.tar.xz && \
+mkdir -p /usr/share/postgresql-common/pgdg && \
+mv ./postgresql-common/pgdg/apt.postgresql.org.sh /usr/share/postgresql-common/pgdg/ && \
+rm -r ./postgresql-common && \
+/usr/share/postgresql-common/pgdg/apt.postgresql.org.sh
 ```
 
 2. ### Install PostgreSQL
 - Add Packages
 ```sh
-root@host:~# apt-get install postgresql-15
-root@host:~# apt-get install postgresql-server-dev-15
+root@host:~# apt-get install postgresql-15 postgresql-server-dev-15
 ```
 
 - Change the postgres user password
@@ -64,7 +51,7 @@ user@host:~$ su - postgres
 postgres@host:~$ createuser --pwprompt psqluser
 ```
 
-- Create one or more databases (one for each backend)
+- Create one or more databases
 ```sh
 postgres@host:~$ createdb -O psqluser mapdb && \
 createdb -O psqluser playerdb && \
@@ -79,7 +66,12 @@ postgres@host:~$ psql -d mapdb -h localhost -U psqluser
 
 4. ### Socket Connection
 > Faster than IP connection for connecting services within localhost
-- Edit `/etc/postgresql/15/main/pg_ident.conf` and add:
+   - Edit `/etc/postgresql/15/main/pg_hba.conf` and change `peer` to `scram-sha-256`:
+```conf
+# "local" is for Unix domain socket connections only
+local   all             all                                     scram-sha-256
+```
+   - Edit `/etc/postgresql/15/main/pg_ident.conf` and add:
 ```conf
 # MAPNAME       SYSTEM-USERNAME         PG-USERNAME
 local           user                    psqluser
@@ -87,33 +79,86 @@ local           user                    psqluser
  - `SYSTEM-USERNAME` is the username which starts minetest service, ie; `user`
  - `PG-USERNAME` is the database owner name to which `user` will connect; `psqluser`
  - `MAPNAME` is the map name that was used in pg_hba.conf; set it to `local`
-   - `local` is for Unix domain socket connections only
-
-- Edit `/etc/postgresql/15/main/pg_hba.conf` and change `peer` to `scram-sha-256`:
-```conf
-# "local" is for Unix domain socket connections only
-local   all             all                                     scram-sha-256
-```
 
 - Restart the PostgreSQL service
 ```sh
 root@host:~# /etc/init.d/postgresql restart
 ```
 
-- It is now possible to connect to the database using your `user` account
+- Create a .pgpass file with the correct permissions
 ```sh
-user@host:~$ psql -d mapdb -U psqluser
+user@host:~$ touch .pgpass && chmod 600 .pgpass && \
+echo "localhost:5432:mapdb:psqluser:securepassword
+localhost:5432:authdb:psqluser:securepassword
+localhost:5432:playerdb:psqluser:securepassword"
 ```
+
+- It is now possible to connect to the database and the `postgres` user with your `user` account
+```sh
+# Connect to database
+user@host:~$ psql -d mapdb -U psqluser
+# Change to postgres user
+user@host:~$ su - postgres
+```
+
+You now have a running PostgreSQL service.
+
+Next step is [Compile Minetest](/compile_minetestserver.md) or [MultiCraft](/compile_multicraftserver.md)
+
+
+5. ### Migrating Backend
+> Make a backup copy of your files before migrating!
+   - Edit `world.mt` add the pgslq_connection of the backend to be migrated.
+   - Do not change the backend type, it will be updated by the migration automation.
+```conf
+# Socket connections:
+backend = sqlite3
+pgsql_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+auth_backend = sqlite3
+pgsql_auth_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+player_backend = sqlite3
+pgsql_player_connection = postgresql:///mapdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapdb
+# IP Connections
+# pgsql_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
+# pgsql_auth_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
+# pgsql_player_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapdb
+```
+
+- Run the minetestserver binary with migration flags
+```sh
+user@host:~$ ./minetest-master/bin/minetestserver --migrate postgresql --world /home/user/minetest-master/worlds/world && \
+./minetest-master/bin/minetestserver --migrate-auth postgresql --world /home/user/minetest-master/worlds/world && \
+./minetest-master/bin/minetestserver --migrate-players postgresql --world /home/user/minetest-master/worlds/world
+```
+
+> Depending on the size of your map file, migration may take several hours.
+
 
 5. ### Backup and Restore
-
-- To create a backup
+   - Dump databases
 ```sh
-postgres@host:~$ pg_dumpall
+user@host:~$ pg_dump -U psqluser -h localhost -d mapdb --clean -O | gzip -c > dump_mapdb.gz && \
+pg_dump -U psqluser -h localhost -d authdb --clean -O | gzip -c > dump_mapdb.gz && \
+pg_dump -U psqluser -h localhost -d playerdb --clean -O | gzip -c > dump_mapdb.gz
+
 ```
 
+   - Dump and compress local database to remote server
+```sh
+user@host:~$ pg_dump -U pg_dump -U psqluser -h localhost -d mapdb --clean -O | ssh -p 7743 user@remote -T "gzip -c > mapdb.gz"
+```
 
-You now have a running PostgreSQL service. Next step is to [Compile Minetest](/compile_minetestserver.md) or [MultiCraft](/compile_multicraftserver.md)
+   - Dump all databases into single file:
+```sh
+user@host:~$ su - postgres bash -c 'pg_dumpall --clean -O' | gzip -c > dumpall_db.gz
+```
+
+- Restore from dump file to existing database
+```sh
+user@host:~$ gunzip -k -c mapdb.gz | psql -U mapdb -h localhost -d mapdb
+```
+https://www.postgresql.org/docs/current/backup-dump.html
+
 
 
 ##

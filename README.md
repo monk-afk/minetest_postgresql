@@ -20,8 +20,8 @@ Table of Contents
    - [Install PostgreSQL](/postgresql_setup.md#install-postgresql)
    - [User Database](/postgresql_setup.md#user-database)
    - [Socket Connection](/postgresql_setup.md#socket-connection)
-   - [Shared Buffer](/postgresql_setup.md#shared-buffer) **to do
-   - [Creating Backups](/postgresql_setup.md#creating-backups) **to do
+   - [Migrating Backend](/postgresql_setup.md#migrating_backend)
+   - [Creating Backups](/postgresql_setup.md#creating-backups)
 
 3. [Minetest Server](/compile_minetestserver.md)
    - [Install Dependencies](/compile_minetestserver.md#install-dependencies)
@@ -37,8 +37,6 @@ Table of Contents
    - [minetest.conf](/compile_multicraftserver.md#minetestconf)
    - [Run Server](/compile_multicraftserver.md#run-server)
    
-5. [Migrating Backend](/migrating_backend.md) **Incomplete
-
 
 ##
 ### mønκ
