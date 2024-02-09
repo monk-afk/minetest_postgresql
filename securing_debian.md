@@ -24,6 +24,7 @@ root@host:~# apt-get install rsync
 
 2. ### SSH with Auth Keys
 > With SSH Keypair Authentication, the server will only allow connections from the user(s) listed in the authorized_keys file.
+
 > [!WARNING]
 > After following these steps, root login attempts will be denied, and authentication via password will be disabled. This means *the only way* to connect with SSH is by having the correct username and keypair. Not even a root password reset will allow recovery if your keys are lost!
 **Never Share the Private Key! Create a backup of your keypair and store it in a secure location!**
@@ -38,8 +39,7 @@ chmod 600 /home/user/.ssh/authorized_keys
 ```
 
 - Generate new SSH keypair on local machine
-    - Creating with password will ask for authentication when using the keys (good security)
-    - Creating without password will authenticate without password (medium security)
+    - Creating with password will ask for authentication when using the keys
     - **DO NOT OVERWRITE EXISTING KEYPAIR!** Default is named `id_rsa` and `id_rsa.pub
 ```sh
 user@local:~$ ssh-keygen -t rsa -b 4096
