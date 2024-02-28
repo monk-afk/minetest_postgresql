@@ -145,7 +145,7 @@ pg_dump -U psqluser -h localhost -d playerdb --clean -O | gzip -c > dump_mapdb.g
 
    - Dump and compress local database to remote server
 ```sh
-user@host:~$ pg_dump -U pg_dump -U psqluser -h localhost -d mapdb --clean -O | ssh -p 7743 user@remote -T "gzip -c > mapdb.gz"
+user@host:~$ pg_dump -U psqluser -h localhost -d mapdb --clean -O | ssh -p 7743 user@remote -T "gzip -c > mapdb.gz"
 ```
 
    - Dump all databases into single file:
