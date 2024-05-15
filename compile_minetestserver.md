@@ -34,9 +34,9 @@ wget https://github.com/minetest/irrlicht/archive/master.tar.gz && \
 tar -xzf master.tar.gz && rm master.tar.gz && \
 mv irrlicht-master irrlichtmt && \
 cd ../games/ && \
-wget https://github.com/minetest/minetest_game/archive/refs/heads/master.zip && \
-tar -xzf master.tar.gz && rm master.tar.gz && \
-mv minetest_game-master minetest_game && \
+wget https://github.com/minetest/minetest_game/archive/refs/tags/5.8.0.tar.gz && \
+tar -xzf 5.8.0.tar.gz && rm 5.8.0.tar.gz && \
+mv minetest_game-5.8.0 minetest_game && \
 cd .. && \
 cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DENABLE_POSTGRESQL=ON -DPostgreSQL_TYPE_INCLUDE_DIR=/usr/include/postgresql/15/server/libpq -DIRRLICHT_INCLUDE_DIR=${HOME}/minetest-master/lib/irrlichtmt/include && \
 make -j$(nproc)
