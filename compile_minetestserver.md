@@ -34,7 +34,7 @@ wget https://github.com/minetest/irrlicht/archive/master.tar.gz && \
 tar -xzf master.tar.gz && rm master.tar.gz && \
 mv irrlicht-master irrlichtmt && \
 cd ../games/ && \
-wget https://github.com/minetest/minetest_game/archive/master.tar.gz && \
+wget https://github.com/minetest/minetest_game/archive/refs/heads/master.zip && \
 tar -xzf master.tar.gz && rm master.tar.gz && \
 mv minetest_game-master minetest_game && \
 cd .. && \
