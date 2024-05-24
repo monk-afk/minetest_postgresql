@@ -34,6 +34,15 @@ root@host:~# apt-get install postgresql-15 postgresql-server-dev-15
 root@host:~# passwd postgres
 ```
 
+- Increase shared memory buffer
+
+`nano /etc/postgresql/15/main/postgresql.conf`
+```
+shared_buffers = 8192MB                  # min 128kB
+
+```
+
+
 - Verify the service is running, and start it if not
 ```sh
 user@host:~$ /etc/init.d/postgresql status
