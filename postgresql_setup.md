@@ -16,7 +16,7 @@ Table of Contents
 ```sh
 root@host:~# apt-get install gnupg2 && \
 wget http://deb.debian.org/debian/pool/main/p/postgresql-common/postgresql-common_225+deb11u1.tar.xz && \
-tar -xf postgresql-common_225.tar.xz && rm postgresql-common_225.tar.xz && \
+tar -xf postgresql-common_225\+deb11u1.tar.xz && rm postgresql-common_225\+deb11u1.tar.xz && \
 mkdir -p /usr/share/postgresql-common/pgdg && \
 mv ./postgresql-common/pgdg/apt.postgresql.org.sh /usr/share/postgresql-common/pgdg/ && \
 rm -r ./postgresql-common && \
