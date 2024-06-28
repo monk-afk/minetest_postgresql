@@ -99,7 +99,7 @@ root@host:~# /etc/init.d/postgresql restart
 user@host:~$ touch .pgpass && chmod 600 .pgpass && \
 echo "localhost:5432:mapdb:psqluser:securepassword
 localhost:5432:authdb:psqluser:securepassword
-localhost:5432:playerdb:psqluser:securepassword"
+localhost:5432:playerdb:psqluser:securepassword" > .pgpass
 ```
 
 - It is now possible to connect to the database and the `postgres` user with your `user` account
