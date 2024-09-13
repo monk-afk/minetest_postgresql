@@ -3,7 +3,7 @@ Minetest Server with PostgreSQL Tutorial
 
 - Requires root and ssh access
 - Assumes a clean installation of Debian 11 (bullseye)
-- Written for Minetest 5.9-dev and PostgreSQL 15
+- Instructions for Minetest server with PostgreSQL 15
 - Pay attention to the user@where and ~/directory!
 - Localhost commands: `user@local`/`root@local`
 - Remote server commands: `user@host`/`root@host`
