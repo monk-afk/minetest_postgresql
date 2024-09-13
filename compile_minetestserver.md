@@ -1,8 +1,7 @@
-Building Minetest 5.9-dev Server
-================================
-With minetest_game 5.8.0 and Irrlicht 1.9.0mt14
+Building Minetest Server
+========================
 
-This guide will build master branches of: Minetest (Server), Minetest_Game, and Irrlicht.
+Steps to compile Minetest server from source.
 
 Please follow [Securing Debian](/securing_debian.md) before starting.
 
@@ -13,32 +12,39 @@ Table of Contents
    - [world.mt](#worldmt)
    - [minetest.conf](#minetestconf)
    - [Run Server](#run-server)
-##
 
+___
 
 1. ### Install dependencies
+
 ```sh
-root@host:~# apt install g++ make libc6-dev cmake libpng-dev libjpeg-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev libzstd-dev libluajit-5.1-dev gettext libsdl2-dev
+root@host:~# apt update ; apt install g++ make libc6-dev cmake libpng-dev libjpeg-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev libzstd-dev libluajit-5.1-dev gettext libsdl2-dev
 ```
 
 2. ### Make and Compile 
- - In one step, this will compile master branches of:
-   - Minetest (server) https://github.com/minetest/minetest
-   - Minetest_Game https://github.com/minetest/minetest_game
-   - Irrlicht https://github.com/minetest/irrlicht/
+  - Download Minetest Source https://github.com/minetest/minetest
+    - Development (unstable) https://github.com/minetest/minetest/archive/master.tar.gz
+    - Production (stable) https://github.com/minetest/minetest/archive/refs/heads/stable-5.tar.gz
+
+   - Download Minetest_Game https://github.com/minetest/minetest_game
+
+   - ~~Irrlicht https://github.com/minetest/irrlicht/~~ *IrrlichtMt was merged into the Minetest source tree and is no longer required as a separate dependency or download.*
+
 ```sh
-user@host:~$ wget https://github.com/minetest/minetest/archive/master.tar.gz && \
-tar -xzf master.tar.gz && rm master.tar.gz && \
-cd minetest-master/lib/ && \
-wget https://github.com/minetest/irrlicht/archive/master.tar.gz && \
-tar -xzf master.tar.gz && rm master.tar.gz && \
-mv irrlicht-master irrlichtmt && \
-cd ../games/ && \
-wget https://github.com/minetest/minetest_game/archive/refs/tags/5.8.0.tar.gz && \
-tar -xzf 5.8.0.tar.gz && rm 5.8.0.tar.gz && \
-mv minetest_game-5.8.0 minetest_game && \
-cd .. && \
-cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DENABLE_POSTGRESQL=ON -DPostgreSQL_TYPE_INCLUDE_DIR=/usr/include/postgresql/15/server/libpq -DIRRLICHT_INCLUDE_DIR=${HOME}/minetest-master/lib/irrlichtmt/include && \
+# Download and extract minetest
+wget -O - https://github.com/minetest/minetest/archive/refs/heads/stable-5.tar.gz | tar -xzf -
+
+# Download and extract minetest_game
+wget -O - https://github.com/minetest/minetest_game/archive/refs/tags/5.8.0.tar.gz | tar -xzf -
+
+# Place the minetest_game folder into the games folder
+mv minetest_game-5.8.0 minetest-stable-5/games/minetest_game
+
+# Move into the minetest engine folder
+cd minetest-stable-5
+
+# Make with options, https://github.com/minetest/minetest/blob/master/doc/compiling/README.md
+cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DENABLE_POSTGRESQL=ON -DPostgreSQL_TYPE_INCLUDE_DIR=/usr/include/postgresql/15/server/libpq -DENABLE_CURSES=ON -DENABLE_LUAJIT=ON && \
 make -j$(nproc)
 ```
 
@@ -47,9 +53,12 @@ When compiling is complete, the `minetestserver` binary can be found in ~/minete
 3. ### world.mt
 - Default backend type is SQLite3
 - Configure `~/minetest-master/worlds/yourworld/world.mt` file to include postgresql backend(s)
-- Each backend type (map, players, auth, mapserver) requires it's own database
+- Each backend type (map, players, auth, mapserver) requires its own database
 - **Make sure to change the username, password, and dbname to your own setting!**
-For Socket Connection
+- Mapserver is optional, and not yet covered by this tutorial. Source can be found here: https://github.com/minetest-mapserver/mapserver
+
+For Socket Connection (faster)
+
 ```conf
 # map
 backend = postgresql
@@ -63,7 +72,9 @@ pgsql_player_connection = postgresql:///playerdb?host=/var/run/postgresql&user=p
 # mapserver
 pgsql_mapserver_connection = postgresql:///mapserverdb?host=/var/run/postgresql&user=psqluser&password=securepassword&dbname=mapserverdb
 ```
+
 For IP connection
+
 ```conf
 # map
 backend = postgresql
@@ -77,7 +88,7 @@ pgsql_player_connection = host=127.0.0.1 port=5432 user=psqluser password=secure
 # mapserver
 pgsql_mapserver_connection = host=127.0.0.1 port=5432 user=psqluser password=securepassword dbname=mapserverdb
 ```
-Mapserver is optional, and not yet covered by this tutorial. Source can be found here: https://github.com/minetest-mapserver/mapserver
+
 
 4. ### minetest.conf
 - Configure `~/minetest-master/minetest.conf` with the settings you want, here is a few to get started
@@ -87,6 +98,10 @@ name = FullPrivsADMIN
 server_announce = false
 server_address = yourdomain.com 
 server_name = AFK Server
+server_description = """
+Welcome to AFKS!
+AFK All Day Every Day!
+"""
 port = 30000
 max_users = 64
 serverlist_url = servers.minetest.net
@@ -121,6 +136,7 @@ enable_client_modding = false
 A complete list of config settings can be found here: https://github.com/minetest/minetest/blob/master/minetest.conf.example#L700
 
 5. ### Run Server
+
 ```sh
 user@host:~/minetest-master$ ./bin/minetestserver --world ./worlds/yourworld --config ./minetest.conf --gameid minetest_game
 ```
